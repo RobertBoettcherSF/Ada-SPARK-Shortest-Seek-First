@@ -21,7 +21,10 @@ package body SSTF with SPARK_Mode is
          Best_Idx := Requests'First; 
          
          -- Find the closest unvisited track request
+         -- Loop invariant: Best_Idx is always a valid index in Requests'Range
          for J in Requests'Range loop
+            pragma Loop_Invariant (Best_Idx >= Requests'First and Best_Idx <= Requests'Last);
+            
             if not Visited (J) then
                
                -- Calculate absolute distance safely without risking negative overflow
