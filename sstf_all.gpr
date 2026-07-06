@@ -1,0 +1,26 @@
+-- Master GPR file for the SSTF Project
+-- This project file can build all components: library, tests, and demo
+
+project SSTF_All is
+   for Source_Dirs use ("src", "tests", "demo");
+   for Object_Dir use "obj/all";
+   for Exec_Dir use "bin";
+
+   -- The main SSTF library
+   package SSTF_Lib is
+      for Default_Switches ("Ada") use ("-gnat2012", "-gnata", "-gnato", "-gnatwa");
+   end SSTF_Lib;
+
+   -- Test runner executable
+   package Test_Runner is
+      for Default_Switches ("Ada") use ("-gnat2012", "-gnata", "-gnato", "-gnatwa");
+      for Main use ("tests/test_runner.adb");
+   end Test_Runner;
+
+   -- Demo executable
+   package SSTF_Demo is
+      for Default_Switches ("Ada") use ("-gnat2012", "-gnata", "-gnato", "-gnatwa");
+      for Main use ("demo/sstf_demo.adb");
+   end SSTF_Demo;
+
+end SSTF_All;
