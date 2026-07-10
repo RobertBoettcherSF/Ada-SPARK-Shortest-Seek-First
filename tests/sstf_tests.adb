@@ -255,17 +255,53 @@ package body SSTF_Tests is
    end Run_All_Tests;
 
    procedure Print_Results (Results : in Test_Case_Array) is
+      Passed_Count : Integer := 0;
+      Failed_Count : Integer := 0;
    begin
       Ada.Text_IO.Put_Line("=================================================");
       Ada.Text_IO.Put_Line("SSTF Algorithm Test Results");
       Ada.Text_IO.Put_Line("=================================================");
       Ada.Text_IO.New_Line;
       
+      -- Print the narrative explanation
+      Ada.Text_IO.Put_Line("TESTING PHILOSOPHY:");
+      Ada.Text_IO.Put_Line("-------------------");
+      Ada.Text_IO.Put_Line("What we assumed to not work:");
+      Ada.Text_IO.Put_Line("  - We assumed the SSTF algorithm might fail to select the");
+      Ada.Text_IO.Put_Line("    closest request when the head is between multiple requests");
+      Ada.Text_IO.Put_Line("  - We assumed edge cases (head at 0, head at request position)");
+      Ada.Text_IO.Put_Line("    might cause incorrect behavior");
+      Ada.Text_IO.Put_Line("  - We assumed the algorithm might not handle requests on only");
+      Ada.Text_IO.Put_Line("    one side of the head correctly");
+      Ada.Text_IO.New_Line;
+      
+      Ada.Text_IO.Put_Line("How we tested for it:");
+      Ada.Text_IO.Put_Line("  - We created test cases with various head positions and request");
+      Ada.Text_IO.Put_Line("    distributions to verify correct closest-track selection");
+      Ada.Text_IO.Put_Line("  - We tested with single requests, multiple requests on both sides,");
+      Ada.Text_IO.Put_Line("    and requests all on one side of the head");
+      Ada.Text_IO.Put_Line("  - We verified the algorithm produces the expected schedule for each");
+      Ada.Text_IO.Put_Line("    test case by comparing actual output to expected output");
+      Ada.Text_IO.New_Line;
+      
+      Ada.Text_IO.Put_Line("How we were proven wrong:");
+      Ada.Text_IO.Put_Line("  - Each test case below shows the actual results. When a test");
+      Ada.Text_IO.Put_Line("    passes, it means our assumptions were wrong - the algorithm");
+      Ada.Text_IO.Put_Line("    works correctly!");
+      Ada.Text_IO.Put_Line("  - Failed tests would indicate our assumptions were correct and");
+      Ada.Text_IO.Put_Line("    the algorithm needs fixing");
+      Ada.Text_IO.New_Line;
+      Ada.Text_IO.Put_Line("=================================================");
+      Ada.Text_IO.New_Line;
+      
+      -- Print individual test results
       for I in Results'Range loop
          case Results(I).Result is
             when Pass =>
+               Passed_Count := Passed_Count + 1;
                Ada.Text_IO.Put_Line("[PASS] " & Results(I).Name);
             when Fail =>
+               Failed_Count := Failed_Count + 1;
                Ada.Text_IO.Put_Line("[FAIL] " & Results(I).Name);
                Ada.Text_IO.Put_Line("       Initial: " & Track_Index'Image(Results(I).Initial));
                Ada.Text_IO.Put("       Requests: ");
@@ -290,11 +326,20 @@ package body SSTF_Tests is
       
       Ada.Text_IO.New_Line;
       Ada.Text_IO.Put_Line("=================================================");
+      Ada.Text_IO.Put_Line("SUMMARY:");
+      Ada.Text_IO.Put_Line("  Tests Passed: " & Integer'Image(Passed_Count));
+      Ada.Text_IO.Put_Line("  Tests Failed: " & Integer'Image(Failed_Count));
+      Ada.Text_IO.New_Line;
       
       if All_Passed(Results) then
-         Ada.Text_IO.Put_Line("ALL TESTS PASSED!");
+         Ada.Text_IO.Put_Line("CONCLUSION: ALL TESTS PASSED!");
+         Ada.Text_IO.Put_Line("  Our initial assumptions about what might not work were");
+         Ada.Text_IO.Put_Line("  PROVEN WRONG. The SSTF algorithm works correctly for all");
+         Ada.Text_IO.Put_Line("  tested scenarios.");
       else
-         Ada.Text_IO.Put_Line("SOME TESTS FAILED!");
+         Ada.Text_IO.Put_Line("CONCLUSION: SOME TESTS FAILED!");
+         Ada.Text_IO.Put_Line("  Our initial assumptions about what might not work were");
+         Ada.Text_IO.Put_Line("  PROVEN CORRECT. The SSTF algorithm needs fixing.");
       end if;
       
       Ada.Text_IO.Put_Line("=================================================");
