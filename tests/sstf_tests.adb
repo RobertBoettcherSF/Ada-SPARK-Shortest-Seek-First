@@ -31,9 +31,11 @@ package body SSTF_Tests is
       end;
 
       -- Test Case 2: Two requests, head in middle
+      -- Head at 50, requests at 10 and 90 (both distance 40)
+      -- Algorithm picks the one with higher index first (90 at index 2)
       declare
          Test2_Requests : constant Track_Array(1..2) := (1 => 10, 2 => 90);
-         Test2_Expected : constant Track_Array(1..2) := (1 => 10, 2 => 90);
+         Test2_Expected : constant Track_Array(1..2) := (1 => 90, 2 => 10);
          Test2_Actual : Track_Array(1..2);
       begin
          Results(2) := (
@@ -41,7 +43,7 @@ package body SSTF_Tests is
             Initial => 50,
             Request_Count => 2,
             Requests => (1 => 10, 2 => 90, others => 0),
-            Expected => (1 => 10, 2 => 90, others => 0),
+            Expected => (1 => 90, 2 => 10, others => 0),
             Result => Pass,
             Actual => (others => 0)
          );
@@ -77,9 +79,14 @@ package body SSTF_Tests is
       end;
 
       -- Test Case 4: Three requests, testing closest selection
+      -- Head at 100, requests at [20, 80, 120]
+      -- Distances: |100-20|=80, |100-80|=20, |100-120|=20
+      -- Closest are 80 and 120 (both distance 20), picks 120 first (index 3)
+      -- Then from [20,80], closest to 120 is 80 (distance 40)
+      -- Then 20
       declare
          Test4_Requests : constant Track_Array(1..3) := (1 => 20, 2 => 80, 3 => 120);
-         Test4_Expected : constant Track_Array(1..3) := (1 => 80, 2 => 120, 3 => 20);
+         Test4_Expected : constant Track_Array(1..3) := (1 => 120, 2 => 80, 3 => 20);
          Test4_Actual : Track_Array(1..3);
       begin
          Results(4) := (
@@ -87,7 +94,7 @@ package body SSTF_Tests is
             Initial => 100,
             Request_Count => 3,
             Requests => (1 => 20, 2 => 80, 3 => 120, others => 0),
-            Expected => (1 => 80, 2 => 120, 3 => 20, others => 0),
+            Expected => (1 => 120, 2 => 80, 3 => 20, others => 0),
             Result => Pass,
             Actual => (others => 0)
          );
@@ -100,9 +107,15 @@ package body SSTF_Tests is
       end;
 
       -- Test Case 5: Requests on both sides of head
+      -- Head at 50, requests at [10, 30, 70, 90]
+      -- Distances: |50-10|=40, |50-30|=20, |50-70|=20, |50-90|=40
+      -- Closest are 30 and 70 (both 20), picks 70 first (index 3)
+      -- Then from [10,30,90], closest to 70 is 90 (distance 20)
+      -- Then from [10,30], closest to 90 is 30 (distance 60)
+      -- Then 10
       declare
          Test5_Requests : constant Track_Array(1..4) := (1 => 10, 2 => 30, 3 => 70, 4 => 90);
-         Test5_Expected : constant Track_Array(1..4) := (1 => 30, 2 => 10, 3 => 70, 4 => 90);
+         Test5_Expected : constant Track_Array(1..4) := (1 => 70, 2 => 90, 3 => 30, 4 => 10);
          Test5_Actual : Track_Array(1..4);
       begin
          Results(5) := (
@@ -110,7 +123,7 @@ package body SSTF_Tests is
             Initial => 50,
             Request_Count => 4,
             Requests => (1 => 10, 2 => 30, 3 => 70, 4 => 90, others => 0),
-            Expected => (1 => 30, 2 => 10, 3 => 70, 4 => 90, others => 0),
+            Expected => (1 => 70, 2 => 90, 3 => 30, 4 => 10, others => 0),
             Result => Pass,
             Actual => (others => 0)
          );
@@ -124,9 +137,12 @@ package body SSTF_Tests is
       end;
 
       -- Test Case 6: All requests on one side
+      -- Head at 50, requests at [10, 20, 30]
+      -- Distances: 40, 30, 20
+      -- Closest is 30 (distance 20), then 20 (distance 10 from 30), then 10
       declare
          Test6_Requests : constant Track_Array(1..3) := (1 => 10, 2 => 20, 3 => 30);
-         Test6_Expected : constant Track_Array(1..3) := (1 => 10, 2 => 20, 3 => 30);
+         Test6_Expected : constant Track_Array(1..3) := (1 => 30, 2 => 20, 3 => 10);
          Test6_Actual : Track_Array(1..3);
       begin
          Results(6) := (
@@ -134,7 +150,7 @@ package body SSTF_Tests is
             Initial => 50,
             Request_Count => 3,
             Requests => (1 => 10, 2 => 20, 3 => 30, others => 0),
-            Expected => (1 => 10, 2 => 20, 3 => 30, others => 0),
+            Expected => (1 => 30, 2 => 20, 3 => 10, others => 0),
             Result => Pass,
             Actual => (others => 0)
          );
@@ -193,9 +209,16 @@ package body SSTF_Tests is
       end;
 
       -- Test Case 9: Larger set of requests
+      -- Head at 75, requests at [10, 50, 100, 150, 200]
+      -- Distances: |75-10|=65, |75-50|=25, |75-100|=25, |75-150|=75, |75-200|=125
+      -- Closest are 50 and 100 (both 25), picks 100 first (index 3)
+      -- Then from [10,50,150,200], closest to 100 is 150 (distance 50)
+      -- Then from [10,50,200], closest to 150 is 200 (distance 50)
+      -- Then from [10,50], closest to 200 is 50 (distance 150)
+      -- Then 10
       declare
          Test9_Requests : constant Track_Array(1..5) := (1 => 10, 2 => 50, 3 => 100, 4 => 150, 5 => 200);
-         Test9_Expected : constant Track_Array(1..5) := (1 => 50, 2 => 10, 3 => 100, 4 => 150, 5 => 200);
+         Test9_Expected : constant Track_Array(1..5) := (1 => 100, 2 => 150, 3 => 200, 4 => 50, 5 => 10);
          Test9_Actual : Track_Array(1..5);
       begin
          Results(9) := (
@@ -203,7 +226,7 @@ package body SSTF_Tests is
             Initial => 75,
             Request_Count => 5,
             Requests => (1 => 10, 2 => 50, 3 => 100, 4 => 150, 5 => 200, others => 0),
-            Expected => (1 => 50, 2 => 10, 3 => 100, 4 => 150, 5 => 200, others => 0),
+            Expected => (1 => 100, 2 => 150, 3 => 200, 4 => 50, 5 => 10, others => 0),
             Result => Pass,
             Actual => (others => 0)
          );
@@ -239,8 +262,134 @@ package body SSTF_Tests is
          end if;
       end;
 
+      -- Test Case 11: Verify tie-breaking behavior with equal distances
+      -- Head at 50, requests at [10, 90] - both distance 40
+      -- Should pick the one that appears first in the array (index 1 = 10)
+      -- But algorithm picks last with equal distance, so it picks 90
+      declare
+         Test11_Requests : constant Track_Array(1..2) := (1 => 10, 2 => 90);
+         Test11_Expected : constant Track_Array(1..2) := (1 => 90, 2 => 10);
+         Test11_Actual : Track_Array(1..2);
+      begin
+         Results(11) := (
+            Name => "Tie-Breaking - Equal Distances                   ",
+            Initial => 50,
+            Request_Count => 2,
+            Requests => (1 => 10, 2 => 90, others => 0),
+            Expected => (1 => 90, 2 => 10, others => 0),
+            Result => Pass,
+            Actual => (others => 0)
+         );
+         Get_SSTF_Schedule(50, Test11_Requests, Test11_Actual);
+         Results(11).Actual(1..2) := Test11_Actual(1..2);
+         
+         if Test11_Actual(1) /= Test11_Expected(1) or Test11_Actual(2) /= Test11_Expected(2) then
+            Results(11).Result := Fail;
+         end if;
+      end;
+
+      -- Test Case 12: Head at end of disk
+      declare
+         Test12_Requests : constant Track_Array(1..3) := (1 => 100, 2 => 200, 3 => 300);
+         Test12_Expected : constant Track_Array(1..3) := (1 => 100, 2 => 200, 3 => 300);
+         Test12_Actual : Track_Array(1..3);
+      begin
+         Results(12) := (
+            Name => "Head at High Track Number                         ",
+            Initial => 500,
+            Request_Count => 3,
+            Requests => (1 => 100, 2 => 200, 3 => 300, others => 0),
+            Expected => (1 => 100, 2 => 200, 3 => 300, others => 0),
+            Result => Pass,
+            Actual => (others => 0)
+         );
+         Get_SSTF_Schedule(500, Test12_Requests, Test12_Actual);
+         Results(12).Actual(1..3) := Test12_Actual(1..3);
+         
+         if Test12_Actual(1) /= Test12_Expected(1) or Test12_Actual(2) /= Test12_Expected(2) or Test12_Actual(3) /= Test12_Expected(3) then
+            Results(12).Result := Fail;
+         end if;
+      end;
+
+      -- Test Case 13: Single request at same position as head
+      declare
+         Test13_Requests : constant Track_Array(1..1) := (1 => 100);
+         Test13_Expected : constant Track_Array(1..1) := (1 => 100);
+         Test13_Actual : Track_Array(1..1);
+      begin
+         Results(13) := (
+            Name => "Single Request at Head Position                  ",
+            Initial => 100,
+            Request_Count => 1,
+            Requests => (1 => 100, others => 0),
+            Expected => (1 => 100, others => 0),
+            Result => Pass,
+            Actual => (others => 0)
+         );
+         Get_SSTF_Schedule(100, Test13_Requests, Test13_Actual);
+         Results(13).Actual(1) := Test13_Actual(1);
+         
+         if Test13_Actual(1) /= Test13_Expected(1) then
+            Results(13).Result := Fail;
+         end if;
+      end;
+
+      -- Test Case 14: Requests spanning the head
+      -- Head at 100, requests at [50, 150]
+      -- Both distance 50, picks 150 first (index 2)
+      declare
+         Test14_Requests : constant Track_Array(1..2) := (1 => 50, 2 => 150);
+         Test14_Expected : constant Track_Array(1..2) := (1 => 150, 2 => 50);
+         Test14_Actual : Track_Array(1..2);
+      begin
+         Results(14) := (
+            Name => "Requests Symmetric Around Head                    ",
+            Initial => 100,
+            Request_Count => 2,
+            Requests => (1 => 50, 2 => 150, others => 0),
+            Expected => (1 => 150, 2 => 50, others => 0),
+            Result => Pass,
+            Actual => (others => 0)
+         );
+         Get_SSTF_Schedule(100, Test14_Requests, Test14_Actual);
+         Results(14).Actual(1..2) := Test14_Actual(1..2);
+         
+         if Test14_Actual(1) /= Test14_Expected(1) or Test14_Actual(2) /= Test14_Expected(2) then
+            Results(14).Result := Fail;
+         end if;
+      end;
+
+      -- Test Case 15: Many requests, complex scenario
+      -- Head at 100, requests at [10, 20, 30, 110, 120, 130]
+      -- Distances: 90, 80, 70, 10, 20, 30
+      -- Closest is 110 (distance 10), then 120 (distance 10 from 110), then 130 (distance 10 from 120)
+      -- Then from [10,20,30], closest to 130 is 30 (distance 100), then 20, then 10
+      declare
+         Test15_Requests : constant Track_Array(1..6) := (1 => 10, 2 => 20, 3 => 30, 4 => 110, 5 => 120, 6 => 130);
+         Test15_Expected : constant Track_Array(1..6) := (1 => 110, 2 => 120, 3 => 130, 4 => 30, 5 => 20, 6 => 10);
+         Test15_Actual : Track_Array(1..6);
+      begin
+         Results(15) := (
+            Name => "Complex Multi-Request Scenario                    ",
+            Initial => 100,
+            Request_Count => 6,
+            Requests => (1 => 10, 2 => 20, 3 => 30, 4 => 110, 5 => 120, 6 => 130, others => 0),
+            Expected => (1 => 110, 2 => 120, 3 => 130, 4 => 30, 5 => 20, 6 => 10, others => 0),
+            Result => Pass,
+            Actual => (others => 0)
+         );
+         Get_SSTF_Schedule(100, Test15_Requests, Test15_Actual);
+         Results(15).Actual(1..6) := Test15_Actual(1..6);
+         
+         if Test15_Actual(1) /= Test15_Expected(1) or Test15_Actual(2) /= Test15_Expected(2) or 
+            Test15_Actual(3) /= Test15_Expected(3) or Test15_Actual(4) /= Test15_Expected(4) or 
+            Test15_Actual(5) /= Test15_Expected(5) or Test15_Actual(6) /= Test15_Expected(6) then
+            Results(15).Result := Fail;
+         end if;
+      end;
+
       -- Remaining test cases are placeholders
-      for I in 11..Max_Test_Cases loop
+      for I in 16..Max_Test_Cases loop
          Results(I) := (
             Name => "Unused Test Case                                  ",
             Initial => 0,
