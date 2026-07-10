@@ -388,18 +388,6 @@ package body SSTF_Tests is
          end if;
       end;
 
-      -- Remaining test cases are placeholders
-      for I in 16..Max_Test_Cases loop
-         Results(I) := (
-            Name => "Unused Test Case                                  ",
-            Initial => 0,
-            Request_Count => 1,
-            Requests => (others => 0),
-            Expected => (others => 0),
-            Result => Pass,
-            Actual => (others => 0)
-         );
-      end loop;
 
    end Run_All_Tests;
 

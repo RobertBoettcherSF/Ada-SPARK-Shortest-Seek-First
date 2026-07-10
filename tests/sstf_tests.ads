@@ -10,7 +10,7 @@ package SSTF_Tests is
    type Test_Result is (Pass, Fail, Error);
 
    -- Maximum test cases
-   Max_Test_Cases : constant := 20;
+   Max_Test_Cases : constant := 15;
    
    -- Test case record
    type Test_Case is record
