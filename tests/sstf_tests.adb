@@ -272,7 +272,7 @@ package body SSTF_Tests is
          Test11_Actual : Track_Array(1..2);
       begin
          Results(11) := (
-            Name => "Tie-Breaking - Equal Distances                   ",
+            Name => "Tie-Breaking - Equal Distances                    ",
             Initial => 50,
             Request_Count => 2,
             Requests => (1 => 10, 2 => 90, others => 0),
@@ -318,7 +318,7 @@ package body SSTF_Tests is
          Test13_Actual : Track_Array(1..1);
       begin
          Results(13) := (
-            Name => "Single Request at Head Position                  ",
+            Name => "Single Request at Head Position                   ",
             Initial => 100,
             Request_Count => 1,
             Requests => (1 => 100, others => 0),
