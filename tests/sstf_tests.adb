@@ -14,7 +14,7 @@ package body SSTF_Tests is
          Test1_Actual : Track_Array(1..1);
       begin
          Results(1) := (
-            Name => "Single Request Test                                    ",
+            Name => "Single Request Test                               ",
             Initial => 50,
             Request_Count => 1,
             Requests => (1 => 100, others => 0),
@@ -37,7 +37,7 @@ package body SSTF_Tests is
          Test2_Actual : Track_Array(1..2);
       begin
          Results(2) := (
-            Name => "Two Requests - Head in Middle                       ",
+            Name => "Two Requests - Head in Middle                     ",
             Initial => 50,
             Request_Count => 2,
             Requests => (1 => 10, 2 => 90, others => 0),
@@ -60,7 +60,7 @@ package body SSTF_Tests is
          Test3_Actual : Track_Array(1..2);
       begin
          Results(3) := (
-            Name => "Two Requests - Head at Start                        ",
+            Name => "Two Requests - Head at Start                      ",
             Initial => 0,
             Request_Count => 2,
             Requests => (1 => 50, 2 => 100, others => 0),
@@ -83,7 +83,7 @@ package body SSTF_Tests is
          Test4_Actual : Track_Array(1..3);
       begin
          Results(4) := (
-            Name => "Three Requests - Closest First                       ",
+            Name => "Three Requests - Closest First                    ",
             Initial => 100,
             Request_Count => 3,
             Requests => (1 => 20, 2 => 80, 3 => 120, others => 0),
@@ -106,7 +106,7 @@ package body SSTF_Tests is
          Test5_Actual : Track_Array(1..4);
       begin
          Results(5) := (
-            Name => "Four Requests - Mixed Positions                     ",
+            Name => "Four Requests - Mixed Positions                   ",
             Initial => 50,
             Request_Count => 4,
             Requests => (1 => 10, 2 => 30, 3 => 70, 4 => 90, others => 0),
@@ -130,7 +130,7 @@ package body SSTF_Tests is
          Test6_Actual : Track_Array(1..3);
       begin
          Results(6) := (
-            Name => "Three Requests - All Left of Head                   ",
+            Name => "Three Requests - All Left of Head                 ",
             Initial => 50,
             Request_Count => 3,
             Requests => (1 => 10, 2 => 20, 3 => 30, others => 0),
@@ -153,7 +153,7 @@ package body SSTF_Tests is
          Test7_Actual : Track_Array(1..3);
       begin
          Results(7) := (
-            Name => "Three Requests - All Right of Head                  ",
+            Name => "Three Requests - All Right of Head                ",
             Initial => 50,
             Request_Count => 3,
             Requests => (1 => 70, 2 => 80, 3 => 90, others => 0),
@@ -176,7 +176,7 @@ package body SSTF_Tests is
          Test8_Actual : Track_Array(1..3);
       begin
          Results(8) := (
-            Name => "Head at Request Position                            ",
+            Name => "Head at Request Position                          ",
             Initial => 50,
             Request_Count => 3,
             Requests => (1 => 50, 2 => 100, 3 => 150, others => 0),
@@ -199,7 +199,7 @@ package body SSTF_Tests is
          Test9_Actual : Track_Array(1..5);
       begin
          Results(9) := (
-            Name => "Five Requests - Comprehensive Test                   ",
+            Name => "Five Requests - Comprehensive Test                ",
             Initial => 75,
             Request_Count => 5,
             Requests => (1 => 10, 2 => 50, 3 => 100, 4 => 150, 5 => 200, others => 0),
@@ -223,7 +223,7 @@ package body SSTF_Tests is
          Test10_Actual : Track_Array(1..2);
       begin
          Results(10) := (
-            Name => "Head at Track 0                                    ",
+            Name => "Head at Track 0                                   ",
             Initial => 0,
             Request_Count => 2,
             Requests => (1 => 50, 2 => 100, others => 0),
@@ -242,7 +242,7 @@ package body SSTF_Tests is
       -- Remaining test cases are placeholders
       for I in 11..Max_Test_Cases loop
          Results(I) := (
-            Name => "Unused Test Case                                    ",
+            Name => "Unused Test Case                                  ",
             Initial => 0,
             Request_Count => 1,
             Requests => (others => 0),
