@@ -291,7 +291,7 @@ package body SSTF_Tests is
       -- Test Case 12: Head at end of disk
       declare
          Test12_Requests : constant Track_Array(1..3) := (1 => 100, 2 => 200, 3 => 300);
-         Test12_Expected : constant Track_Array(1..3) := (1 => 100, 2 => 200, 3 => 300);
+         Test12_Expected : constant Track_Array(1..3) := (1 => 300, 2 => 200, 3 => 100);
          Test12_Actual : Track_Array(1..3);
       begin
          Results(12) := (
@@ -299,7 +299,7 @@ package body SSTF_Tests is
             Initial => 500,
             Request_Count => 3,
             Requests => (1 => 100, 2 => 200, 3 => 300, others => 0),
-            Expected => (1 => 100, 2 => 200, 3 => 300, others => 0),
+            Expected => (1 => 300, 2 => 200, 3 => 100, others => 0),
             Result => Pass,
             Actual => (others => 0)
          );
